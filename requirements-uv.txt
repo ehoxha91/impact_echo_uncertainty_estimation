@@ -1,0 +1,50 @@
+# Impact Echo Evidential Learning - UV Requirements
+# Install with: uv pip install -r requirements-uv.txt
+
+# Core ML/DL Framework
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+numpy<2.0
+
+# Scientific Computing
+scipy>=1.10.0
+scikit-learn>=1.2.0
+pandas>=2.0.0
+seaborn==0.13.2
+
+# Audio Processing
+librosa>=0.9.2
+soundfile>=0.12.0
+audioread>=3.0.0
+resampy>=0.4.0
+soxr>=0.3.0
+audiomentations==0.30.0
+torch-audiomentations>=0.11.0
+
+# Deep Learning Utilities
+transformers>=4.38.0
+datasets>=1.14.0
+evaluate>=0.4.0
+huggingface-hub>=0.21.0
+safetensors>=0.4.0
+tokenizers>=0.15.0
+
+# Training & Monitoring
+tensorboard>=2.14.0
+torchinfo>=1.8.0
+tqdm>=4.65.0
+
+# Visualization
+matplotlib>=3.7.0
+plotly>=5.14.0
+
+# Configuration & Utils
+pyyaml>=6.0.0
+python-dateutil>=2.8.0
+
+# Optional: Jupyter Support
+# Uncomment if you need notebooks
+# ipykernel>=6.25.0
+# jupyter>=1.0.0
+# ipython>=8.15.0

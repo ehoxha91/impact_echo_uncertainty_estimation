@@ -187,6 +187,41 @@ python train_evidential_model.py
 python test.py
 ```
 
+## Citation
+
+If you use something in this repository, please be kind and cite our work through:
+
+```
+@article{HOXHA2025139829,
+title = {Contrastive learning for robust defect mapping in concrete slabs using impact echo},
+journal = {Construction and Building Materials},
+volume = {461},
+pages = {139829},
+year = {2025},
+issn = {0950-0618},
+doi = {https://doi.org/10.1016/j.conbuildmat.2024.139829},
+url = {https://www.sciencedirect.com/science/article/pii/S0950061824049717},
+author = {Ejup Hoxha and Jinglun Feng and Agnimitra Sengupta and David Kirakosian and Yang He and Bo Shang and Ardian Gjinofci and Jizhong Xiao},
+keywords = {Impact echo, Bridge decks, Contrastive learning, Concrete defects}
+}
+```
+and
+
+```
+@ARTICLE{10168232,
+  author={Hoxha, Ejup and Feng, Jinglun and Sanakov, Diar and Xiao, Jizhong},
+  journal={IEEE Robotics and Automation Letters}, 
+  title={Robotic Inspection and Subsurface Defect Mapping Using Impact-Echo and Ground Penetrating Radar}, 
+  year={2023},
+  volume={8},
+  number={8},
+  pages={4943-4950},
+  doi={10.1109/LRA.2023.3290386}}
+```
+
+## License:
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## Performance Notes
 
 - **MPS (Apple Silicon)**: Automatically detected and used if available

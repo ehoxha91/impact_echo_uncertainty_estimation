@@ -37,22 +37,37 @@ python test.py
 ## Project Structure
 
 ```
-├── dataloaders/         # Data loading and augmentation
-├── models/              # Evidential neural network models
-├── losses/              # Evidential loss functions
-├── training/            # Training and evaluation loops
-├── testing/             # Test analysis and visualization
-├── data/                # Training/test datasets
-├── weights/             # Saved model checkpoints
-└── results/             # Evaluation results
+├── dataloaders/                  # Data loading and augmentation
+├── models/
+│   ├── evidential_model.py       # Evidential IENet architecture
+│   ├── standard_model.py         # Standard IENet (softmax baseline)
+│   ├── mc_dropout.py             # MC Dropout inference
+│   └── deep_ensemble.py          # Deep Ensemble inference
+├── losses/                       # Evidential loss functions
+├── training/                     # Training and evaluation loops
+├── testing/                      # Test analysis and visualization
+├── train_evidential_model.py     # Train evidential model
+├── train_baselines.py            # Train MC Dropout + Ensemble baselines
+├── evaluate_uq_comparison.py     # UQ method comparison
+├── evaluate_calibration.py       # ECE, Brier score, reliability diagrams
+├── evaluate_multi_seed.py        # Multi-seed stability evaluation
+├── evaluate_ablation.py          # Loss function ablation study
+├── figures/                      # Generated figures (reliability diagrams)
+├── data/                         # Training/test datasets
+├── weights/                      # Saved model checkpoints (gitignored)
+└── results/                      # Evaluation results
 ```
 
 ## Code Structure
 
-1. **models/evidential_model.py** - All model architecture code
-2. **losses/evidential_loss.py** - Loss function implementations
-3. **training/trainer.py** - Training and evaluation functions
-4. **train_evidential_model.py** - Clean main training script
+1. **models/evidential_model.py** - Evidential IENet architecture
+2. **models/standard_model.py** - Standard IENet (softmax baseline for MC Dropout / Ensembles)
+3. **models/mc_dropout.py** - MC Dropout inference (T=50 forward passes)
+4. **models/deep_ensemble.py** - Deep Ensemble inference (M=5 models)
+5. **losses/evidential_loss.py** - Loss function implementations
+6. **training/trainer.py** - Training and evaluation functions
+7. **train_evidential_model.py** - Main evidential model training script
+8. **train_baselines.py** - Train MC Dropout and Deep Ensemble baselines
 
 ## Using Components in Your Own Code
 
@@ -175,15 +190,75 @@ If you want to use the existing requirements.txt (converted for pip):
 uv pip install -r requirements-uv.txt
 ```
 
-### Training the Model
+### Training and Evaluation
 
 Once the environment is set up:
 
 ```bash
-# Train the model
+# Train the evidential model
 python train_evidential_model.py
+```
 
-# Run tests
+#### Reproducing Paper Experiments
+
+**Step 1: Train baseline models (MC Dropout + Deep Ensemble)**
+
+Trains a standard model for MC Dropout (seed=42) and 5 ensemble members (seeds: 42, 123, 456, 789, 1024) using the same hyperparameters as the evidential model (AdamW, lr=1e-4, cosine annealing, 100 epochs, early stopping patience=25).
+
+```bash
+python train_baselines.py
+```
+
+Saved weights: `weights/standard_mc_dropout_best.pth`, `weights/ensemble_member_{0-4}_best.pth`
+
+**Step 2: UQ method comparison (Table: Evidential vs MC Dropout vs Deep Ensemble)**
+
+Evaluates all three methods on DS1 (in-distribution) and DS3 (domain shift). Reports accuracy, precision, recall, F1, misclassification AUROC, and inference time.
+
+```bash
+python evaluate_uq_comparison.py
+```
+
+**Step 3: Calibration analysis (ECE, Brier score, reliability diagrams)**
+
+Computes Expected Calibration Error and Brier score for all three methods. Generates reliability diagram PDFs in `figures/`.
+
+```bash
+python evaluate_calibration.py
+```
+
+Output: `figures/reliability_diagram_ds1.pdf`, `figures/reliability_diagram_ds3.pdf`
+
+**Step 4: Multi-seed stability evaluation**
+
+Trains 5 evidential models with different random seeds and reports mean +/- std for all metrics.
+
+```bash
+python evaluate_multi_seed.py
+```
+
+**Step 5: Loss function ablation study**
+
+Trains 6 ablation variants (Full, NLL-only, NLL+KL, NLL+Penalty, Full with beta=0.1, Full with beta=1.0) and evaluates each on DS1 and DS3.
+
+```bash
+python evaluate_ablation.py
+```
+
+**Run all experiments sequentially:**
+
+```bash
+python train_baselines.py && \
+python evaluate_uq_comparison.py && \
+python evaluate_calibration.py && \
+python evaluate_multi_seed.py && \
+python evaluate_ablation.py
+```
+
+Results are saved as `.pth` files in `weights/` and printed as LaTeX-formatted tables to the terminal.
+
+#### Run tests
+```bash
 python test.py
 ```
 

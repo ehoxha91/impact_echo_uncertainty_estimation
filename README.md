@@ -1,6 +1,8 @@
 # Impact Echo Uncertainty Estimation
 
-Evidential Deep Learning for Impact Echo Signal Classification with Uncertainty Quantification
+Uncertainty Estimation for Impact Echo Defect Detection Using Evidential Deep Learning
+
+If you use this package, please be kind and cite our hard work.
 
 ## Quick Start
 
@@ -292,6 +294,15 @@ and
   number={8},
   pages={4943-4950},
   doi={10.1109/LRA.2023.3290386}}
+```
+
+```
+@unpublished{hoxha_under_review_uncertainty_ie,
+  author = {Ejup Hoxha and Agnimitra Sengupta and Yang He and Jinglun Feng and Bo Shang and Jizhong Xiao},
+  title = {Uncertainty Estimation for Impact Echo Defect Detection Using Evidential Deep Learning},
+  note = {Manuscript under review at Automation in Construction},
+  year = {2026}
+}
 ```
 
 ## License:

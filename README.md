@@ -300,7 +300,7 @@ and
 @unpublished{hoxha_under_review_uncertainty_ie,
   author = {Ejup Hoxha and Agnimitra Sengupta and Yang He and Jinglun Feng and Bo Shang and Jizhong Xiao},
   title = {Uncertainty Estimation for Impact Echo Defect Detection Using Evidential Deep Learning},
-  note = {Manuscript under review at Automation in Construction},
+  note = {Manuscript under review at Construction and Building Materials},
   year = {2026}
 }
 ```

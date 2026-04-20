@@ -189,19 +189,21 @@ from dataloaders.augmentations import *
 
 class ImpactEchoDatasetClassifierAug(Dataset):
     
-    def __init__(self, 
+    def __init__(self,
             X_path,
             y_path,
             sr = [200000, 104200],
             array_size = 1519,
             shuffle=False,
-            use_augmentation=True
+            use_augmentation=True,
+            aug_fn=None
     ):
         self.sr = sr
         self.X = np.array([])
         self.array_size = array_size
         self.shuffle = shuffle
         self.use_augmentation = use_augmentation
+        self.aug_fn = aug_fn if aug_fn is not None else augment_impact_echo_data
         
         items = 0
         for path in X_path:
@@ -270,7 +272,7 @@ class ImpactEchoDatasetClassifierAug(Dataset):
             # Return augmented data for second half of indices
             original_index = index - self.original_size
             # Get augmented data
-            X_augmented = augment_impact_echo_data(self.X[original_index], self.sr[0])[:self.array_size]
+            X_augmented = self.aug_fn(self.X[original_index], self.sr[0])[:self.array_size]
             return torch.tensor(self.__normalize_data_fast__(X_augmented), dtype=torch.double), torch.tensor(self.y[original_index], dtype=torch.int8)
         else:
             # Return original data with pre-computed normalization

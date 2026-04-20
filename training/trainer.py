@@ -103,13 +103,13 @@ def evaluate_evidential_classifier(model, test_loader, device):
     
     accuracy = 100.0 * correct / total
     
-    predictions = torch.cat(all_predictions, dim=1)
-    uncertainties = torch.cat(all_uncertainties, dim=1)
-    epistemic_unc = torch.cat(all_epistemic, dim=1)
-    aleatoric_unc = torch.cat(all_aleatoric, dim=1)
+    predictions = torch.cat(all_predictions, dim=0)
+    uncertainties = torch.cat(all_uncertainties, dim=0)
+    epistemic_unc = torch.cat(all_epistemic, dim=0)
+    aleatoric_unc = torch.cat(all_aleatoric, dim=0)
     confidences = torch.cat(all_confidences, dim=0)
     targets = torch.cat(all_targets, dim=0)
-    alphas = torch.cat(all_alphas, dim=1)
+    alphas = torch.cat(all_alphas, dim=0)
     
     return (accuracy, predictions, uncertainties, epistemic_unc, 
             aleatoric_unc, confidences, targets, alphas)

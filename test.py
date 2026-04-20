@@ -70,7 +70,11 @@ def main():
     print()
     
     # Run the enhanced analysis
-    success = main_enhanced_analysis()
+    success = main_enhanced_analysis(
+        experiment_name=args.experiment,
+        model_name=args.model,
+        model_path=args.model_path,
+    )
     
     if success:
         print("\n" + "=" * 80)

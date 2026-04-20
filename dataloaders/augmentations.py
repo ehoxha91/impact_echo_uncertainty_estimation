@@ -136,6 +136,31 @@ augment_impact_echo_data= Compose([
     TimeMask(min_band_part=0.05, max_band_part=0.1, fade=True, p=0.7)
 ])
 
+# Physics-safe augmentation for impact echo:
+# drops PitchShift and TimeStretch because they directly alter the thickness
+# frequency f_h = C V_p / (2h). A 5-semitone pitch shift moves f_h by ~33%,
+# which is equivalent to relabeling a 200 mm slab as 135-300 mm. TimeStretch
+# does the same thing via the time axis. Only amplitude/SNR/time-mask
+# perturbations, which leave spectral peak positions intact, are kept.
+augment_impact_echo_data_physics_safe = Compose([
+    AddGaussianNoise(min_amplitude=0.001, max_amplitude=0.015, p=0.8),
+    AddGaussianSNR(min_snr_in_db=20.0, max_snr_in_db=40.0, p=0.5),
+    TimeMask(min_band_part=0.05, max_band_part=0.1, fade=True, p=0.7)
+])
+
+# Narrow-range augmentation: keeps PitchShift and TimeStretch but at magnitudes
+# within transducer/coupling variability, not label-flipping. +/-1 semitone is
+# roughly 6% frequency change; TimeStretch 0.95-1.05x is the same order. These
+# stay inside the natural V_p/coupling variability seen in the field and
+# therefore act as regularization without moving samples across thickness bins.
+augment_impact_echo_data_narrow = Compose([
+    AddGaussianNoise(min_amplitude=0.001, max_amplitude=0.015, p=0.8),
+    AddGaussianSNR(min_snr_in_db=20.0, max_snr_in_db=40.0, p=0.5),
+    TimeStretch(min_rate=0.95, max_rate=1.05, p=0.5),
+    PitchShift(min_semitones=-1, max_semitones=1, p=0.7),
+    TimeMask(min_band_part=0.05, max_band_part=0.1, fade=True, p=0.7)
+])
+
 # all models are trained with this one:
 augment_ccny_ie_data____ = Compose([
     # Add Gaussian noise with a 50% probability

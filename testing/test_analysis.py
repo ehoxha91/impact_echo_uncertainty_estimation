@@ -188,11 +188,14 @@ def run_inference_time_uncertainty_analysis_enhanced(model_path, experiment_name
     return True
 
 
-def main_enhanced_analysis():
+def main_enhanced_analysis(experiment_name=None, model_name=None, model_path=None):
     """Main function to run the enhanced analysis with all DS3 slabs."""
-    experiment_name = DEFAULT_EXPERIMENT_NAME
-    model_name = DEFAULT_MODEL_NAME
-    model_path = f'weights/{model_name}.pth'
+    if experiment_name is None:
+        experiment_name = DEFAULT_EXPERIMENT_NAME
+    if model_name is None:
+        model_name = DEFAULT_MODEL_NAME
+    if model_path is None:
+        model_path = f'weights/{model_name}.pth'
     
     print("=== Enhanced Real-Time Evidential Uncertainty Analysis ===")
     print(f"🚀 Running enhanced experiment: {experiment_name} with model: {model_name}")
